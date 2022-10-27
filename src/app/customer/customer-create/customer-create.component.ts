@@ -1,6 +1,5 @@
-import { Customer } from './../model/customer';
 import { CustomerService } from './../customer-service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
@@ -14,8 +13,6 @@ export class CustomerCreateComponent implements OnInit {
   lastName: string = '';
   email: string = '';
   address: string = '';
-
-  @Output() mySubmitEvent = new EventEmitter<Customer>();
 
   constructor(private service: CustomerService, private router: Router) {}
 

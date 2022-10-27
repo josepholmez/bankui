@@ -18,12 +18,13 @@
     </div>
 
     <div *ngFor="let customer of customers">
-        <p>
-            {{ customer.firstName }} {{ customer.lastName }} -
-            {{customer.customerNumber}}
-            <a routerLink="/cus-update-page"> <button>Update</button></a>
-            <a routerLink="/cus-delete-page"> <button>Delete</button></a>
-        </p>
+
+        <a
+            routerLink="/cus-detail-page/{{customer.id}}"> {{ customer.firstName
+            }} {{
+            customer.lastName }} - {{customer.customerNumber}}
+        </a>
+
     </div>
 
 </div>
