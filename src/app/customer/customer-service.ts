@@ -9,7 +9,6 @@ import { Customer } from './model/customer';
 })
 export class CustomerService {
   baseUrl = environment.apiServer;
-  customers: Customer[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -25,5 +24,24 @@ export class CustomerService {
     let url = `${this.baseUrl}/customer/add`;
     console.log('New customer url:', url);
     return this.http.post<Customer>(url, newCustomer);
+  }
+
+  //DELETE
+  deleteCustomer(id: number): Observable<void> {
+    let url = `${this.baseUrl}/customer/delete/{id}`;
+    console.log('Delete customer url:', url);
+    return this.http.delete<void>(url);
+  }
+
+  //PUT
+  updateCustomer(updatedCustomer: Customer): Observable<Customer> {
+    let url = `${this.baseUrl}/customer/update/{updatedCustomer.id}`;
+    return this.http.put<Customer>(url, updatedCustomer);
+  }
+
+  // EXTRA-GET
+  getItemById(id: number): Observable<Customer> {
+    let url = `${this.baseUrl}/customer/find/${id}`;
+    return this.http.get<Customer>(url);
   }
 }
