@@ -1,8 +1,29 @@
- <h3>Customer List</h3>
+<div>
+    <div>
+        <p>.</p>
+    </div>
 
-<div *ngFor="let customer of customers">
+    <div>
+        <a routerLink="/cus-create-page"> <button> Create New Customer</button>
+        </a>
+    </div>
 
-    <p>{{ customer.firstName }} ${{ customer.lastName }} -
-        {{customer.customerNumber}} </p>
+    <h3>Customer List</h3>
+
+    <div>
+        <label for="firstName">First Name</label>
+        <label for="lastName">Last Name</label>
+        <label for="email">Customer Number</label><span></span>
+        <label for="actioan">Actions</label>
+    </div>
+
+    <div *ngFor="let customer of customers">
+        <p>
+            {{ customer.firstName }} {{ customer.lastName }} -
+            {{customer.customerNumber}}
+            <a routerLink="/cus-update-page"> <button>Update</button></a>
+            <a routerLink="/cus-delete-page"> <button>Delete</button></a>
+        </p>
+    </div>
 
 </div>

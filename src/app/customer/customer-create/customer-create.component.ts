@@ -2,6 +2,7 @@ import { Customer } from './../model/customer';
 import { CustomerService } from './../customer-service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-customer-create',
@@ -14,28 +15,18 @@ export class CustomerCreateComponent implements OnInit {
   email: string = '';
   address: string = '';
 
-  // @Output() mySubmitEvent = new EventEmitter<Customer>();
+  @Output() mySubmitEvent = new EventEmitter<Customer>();
 
   constructor(private service: CustomerService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  onSubmitNewCustomer() {
-    this.service
-      .createNewCustomer()
-      .subscribe(() => console.log('Created', this.firstName));
-
-    alert('Created!!');
-
+  onSubmitNewCustomer(customerForm: NgForm) {
+    this.service.createNewCustomer(customerForm.value).subscribe(() => {
+      console.log('***New created item:', customerForm.value);
+      customerForm.reset();
+    });
+    alert('Created!');
     this.router.navigateByUrl('/cus-all-page');
-
-    ////
-    // this.mySubmitEvent.emit({
-    //   id: '',
-    //   name: this.name,
-    //   description: this.description,
-    //   price: Number(this.price),
-    //   used: this.used,
-    // });
   }
 }

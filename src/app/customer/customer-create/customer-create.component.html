@@ -1,7 +1,7 @@
 <h3>Create New Customer</h3>
 
 <div>
-    <form (ngSubmit)="onSubmitNewCustomer">
+    <form #customerForm="ngForm" (ngSubmit)="onSubmitNewCustomer(customerForm)">
         <div>
             <label for="firstName">First Name: </label>
             <input type="text" id="firstName" name="firstName"

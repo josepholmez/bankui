@@ -13,15 +13,17 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
+  //GET
   getCustomerList(): Observable<Customer[]> {
     let url = `${this.baseUrl}/customer/all`;
     console.log('Customer List URL:', url);
     return this.http.get<Customer[]>(url);
   }
 
-  createNewCustomer(): Observable<Customer> {
+  //POST
+  createNewCustomer(newCustomer: Customer): Observable<Customer> {
     let url = `${this.baseUrl}/customer/add`;
     console.log('New customer url:', url);
-    return this.http.get<Customer>(url);
+    return this.http.post<Customer>(url, newCustomer);
   }
 }
