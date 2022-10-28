@@ -1,3 +1,4 @@
+import { Customer } from './../model/customer';
 import { CustomerService } from './../customer-service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,21 +10,18 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./customer-create.component.css'],
 })
 export class CustomerCreateComponent implements OnInit {
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  address: string = '';
+  customer = new Customer();
 
   constructor(private service: CustomerService, private router: Router) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {}
 
-  onSubmitNewCustomer(customerForm: NgForm) {
-    this.service.createNewCustomer(customerForm.value).subscribe(() => {
-      console.log('***New created item:', customerForm.value);
+  async onNewCustomerSubmit(customerForm: NgForm) {
+    (await this.service.createNewCustomer(customerForm.value)).subscribe(() => {
+      console.log('New created item:', customerForm.value);
       customerForm.reset();
     });
-    alert('Created!');
-    this.router.navigateByUrl('/cus-all-page');
+
+    this.service.gotoCustomerListPage(this.router);
   }
 }

@@ -1,7 +1,7 @@
+import { Router } from '@angular/router';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Customer } from './model/customer';
 
 @Injectable({
@@ -13,35 +13,42 @@ export class CustomerService {
   constructor(private http: HttpClient) {}
 
   //GET
-  getCustomerList(): Observable<Customer[]> {
+  async getCustomerList() {
     let url = `${this.baseUrl}/customer/all`;
-    console.log('Customer List URL:', url);
     return this.http.get<Customer[]>(url);
   }
 
   //POST
-  createNewCustomer(newCustomer: Customer): Observable<Customer> {
+  async createNewCustomer(newCustomer: Customer) {
     let url = `${this.baseUrl}/customer/add`;
-    console.log('New customer url:', url);
     return this.http.post<Customer>(url, newCustomer);
   }
 
   //DELETE
-  deleteCustomer(id: number): Observable<void> {
-    let url = `${this.baseUrl}/customer/delete/{id}`;
-    console.log('Delete customer url:', url);
+  async deleteCustomer(id: number) {
+    let url = `${this.baseUrl}/customer/delete/${id}`;
     return this.http.delete<void>(url);
   }
 
   //PUT
-  updateCustomer(updatedCustomer: Customer): Observable<Customer> {
-    let url = `${this.baseUrl}/customer/update/{updatedCustomer.id}`;
+  async updateCustomer(updatedCustomer: Customer) {
+    let url = `${this.baseUrl}/customer/update/${updatedCustomer.id}`;
     return this.http.put<Customer>(url, updatedCustomer);
   }
 
   // EXTRA-GET
-  getItemById(id: number): Observable<Customer> {
+  async getItemById(id: number) {
     let url = `${this.baseUrl}/customer/find/${id}`;
     return this.http.get<Customer>(url);
+  }
+
+  gotoCustomerListPage(router: Router) {
+    this.refreshData();
+    console.log('Customer Data has been Refreshed!');
+    router.navigateByUrl('/cus-all-page');
+    console.log('Navigated url:, customer list page');
+  }
+  refreshData() {
+    this.getCustomerList();
   }
 }

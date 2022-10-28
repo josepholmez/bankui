@@ -1,6 +1,6 @@
 import { Account } from './account';
 
-export interface Customer {
+export class Customer {
   id: number;
   deleted: boolean;
 
