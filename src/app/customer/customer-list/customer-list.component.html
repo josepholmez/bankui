@@ -1,28 +1,17 @@
 <div>
     <div>
-        <p>.</p>
-    </div>
-
-    <div>
-        <a routerLink="/cus-create-page"> <button> Create New Customer</button>
+        <a routerLink="/cus-create-page"> <button class="create"> Create New
+                Customer</button>
         </a>
     </div>
 
     <h3>Customer List</h3>
 
-    <div>
-        <label for="firstName">First Name</label>
-        <label for="lastName">Last Name</label>
-        <label for="email">Customer Number</label><span></span>
-        <label for="actioan">Actions</label>
-    </div>
-
     <div *ngFor="let customer of customers">
-
         <a
-            routerLink="/cus-detail-page/{{customer.id}}"> {{ customer.firstName
-            }} {{
-            customer.lastName }} - {{customer.customerNumber}}
+            routerLink="/cus-detail-page/{{customer.id}}">
+            {{ customer.firstName }}
+            {{ customer.lastName }} - {{customer.customerNumber}}
         </a>
 
     </div>

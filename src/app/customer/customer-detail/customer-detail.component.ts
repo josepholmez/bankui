@@ -1,4 +1,4 @@
-import { Customer } from './../model/customer';
+import { Customer } from '../../model/customer';
 import { CustomerService } from './../customer-service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,8 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./customer-detail.component.css'],
 })
 export class CustomerDetailComponent implements OnInit {
-  customer: Customer;
-  cusId: number;
+  customer = new Customer();
 
   constructor(
     private service: CustomerService,
@@ -18,23 +17,20 @@ export class CustomerDetailComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id != null) {
-      this.service.getItemById(parseInt(id)).subscribe((data) => {
-        this.customer = data;
-        this.cusId = data.id;
-        console.log('Customer: ', data);
+      (await this.service.getCustomerById(parseInt(id))).subscribe((result) => {
+        this.customer = result;
       });
     }
   }
 
-  onDeleteCustomer(): void {
-    this.service
-      .deleteCustomer(this.cusId)
-      .subscribe(() => console.log('Deleted customer: ', this.customer));
+  async onDeleteCustomer(id: number) {
+    (await this.service.deleteCustomer(id)).subscribe(() =>
+      console.log('Deleted customer: ', id)
+    );
 
-    alert('Deleted!');
-    this.router.navigateByUrl('/cus-all-page');
+    this.service.gotoCustomerListPage(this.router);
   }
 }

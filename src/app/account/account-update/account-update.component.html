@@ -1,0 +1,30 @@
+<h3>Update Account</h3>
+
+<div>
+    <form (ngSubmit)="onUpdateAccountSubmit(account)">
+        <div>
+            <label for="accountNumber">Account Number: {{ account.accountNumber
+                }} </label>
+        </div>
+
+        <div>
+            <label for="accountName">Account Name: </label>
+            <input type="text" id="accountName" name="accountName"
+                [(ngModel)]="account.accountName"/>
+        </div>
+
+        <div>
+            <label for="balance">Balance: {{ account.balance }} </label>
+        </div>
+
+        <div>
+            <label for="accountType">Account Type: {{ account.accountType }}</label>
+        </div>
+
+        <div>
+            <button type="submit"> Update</button>
+            <button class="back" routerLink="/acc-all-page">Back</button>
+        </div>
+
+    </form>
+</div>

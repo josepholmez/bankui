@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from './../customer-service';
-import { Customer } from './../model/customer';
+import { Customer } from '../../model/customer';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer-update.component.css'],
 })
 export class CustomerUpdateComponent implements OnInit {
-  customer: Customer;
+  customer = new Customer();
 
   constructor(
     private service: CustomerService,
@@ -17,18 +17,20 @@ export class CustomerUpdateComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id != null) {
-      let existingItem = this.service.getItemById(parseInt(id));
-      existingItem.subscribe((data) => (this.customer = data));
+      let oCustomer = await this.service.getCustomerById(parseInt(id));
+      oCustomer.subscribe((result) => (this.customer = result));
     }
   }
 
-  onUpdateCustomerSubmit(updatedCustomer: Customer) {
-    this.service.updateCustomer(updatedCustomer).subscribe((data) => {
-      console.log('updated customer: ', data);
+  async onUpdateCustomerSubmit(updatedCustomer: Customer) {
+    let oCustomer = await this.service.updateCustomer(updatedCustomer);
+    oCustomer.subscribe((result) => {
+      console.log('Updated customer: ', result);
     });
-    this.router.navigateByUrl('/cus-all-page');
+
+    this.service.gotoCustomerListPage(this.router);
   }
 }

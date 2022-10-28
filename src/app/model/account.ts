@@ -1,4 +1,5 @@
-export interface Account {
+import { AccountType } from './accountType';
+export class Account {
   id: number;
   deleted: boolean;
 
@@ -9,4 +10,5 @@ export interface Account {
   openedOn: Date;
   closedOn: Date | null;
   balance: number;
+  accountType: AccountType.CHECKING_CAD;
 }
