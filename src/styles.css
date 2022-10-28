@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    padding-top: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    background-color: rgba(0, 0, 200);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-inline-end: 10px;
+}
+
+input, textarea {
+    border: 2px, solid black;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.nav-bar {
+    text-decoration: none;
+    background-color: rgb(39, 2, 2);
+    color: white;
+}
+
+.nav-bar > a {
+    margin-inline-end: 20px;
+}
+
+div {
+    padding: 8px
+}
+
+.back{
+    background-color: gray;
+}
+.edit {
+        background-color: rgb(16, 64, 83);
+}
+
+.save {
+    background-color: green;
+}
+
+.delete {
+    background-color: red;
+}
+
+.create {
+    background-color: blue;
+}
+

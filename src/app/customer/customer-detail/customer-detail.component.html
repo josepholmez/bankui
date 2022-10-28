@@ -6,9 +6,9 @@
 	<p> Address: {{ customer.address }}</p>
 
 	<div>
-		<button routerLink="/cus-all-page">Back</button>
-		<button routerLink="/cus-update-page/{{customer.id}}">Update</button>
-		<button (click)="onDeleteCustomer(customer.id)">Delete</button>
+		<button class="back" routerLink="/cus-all-page">Back</button>
+		<button class="update" routerLink="/cus-update-page/{{customer.id}}">Update</button>
+		<button class="delete" (click)="onDeleteCustomer(customer.id)">Delete</button>
 	</div>
 
 </div>
