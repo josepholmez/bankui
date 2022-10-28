@@ -1,4 +1,4 @@
-import { Customer } from './../model/customer';
+import { Customer } from '../../model/customer';
 import { CustomerService } from './../customer-service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class CustomerCreateComponent implements OnInit {
 
   async onNewCustomerSubmit(customerForm: NgForm) {
     (await this.service.createNewCustomer(customerForm.value)).subscribe(() => {
-      console.log('New created item:', customerForm.value);
+      console.log('New created customer', customerForm.value);
       customerForm.reset();
     });
 

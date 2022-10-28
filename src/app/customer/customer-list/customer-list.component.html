@@ -1,6 +1,4 @@
 <div>
-
-
     <div>
         <a routerLink="/cus-create-page"> <button class="create"> Create New
                 Customer</button>
@@ -9,13 +7,11 @@
 
     <h3>Customer List</h3>
 
-
     <div *ngFor="let customer of customers">
-
         <a
-            routerLink="/cus-detail-page/{{customer.id}}"> {{ customer.firstName
-            }} {{
-            customer.lastName }} - {{customer.customerNumber}}
+            routerLink="/cus-detail-page/{{customer.id}}">
+            {{ customer.firstName }}
+            {{ customer.lastName }} - {{customer.customerNumber}}
         </a>
 
     </div>

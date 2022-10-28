@@ -14,6 +14,10 @@ import { CustomerListComponent } from './customer/customer-list/customer-list.co
 import { CustomerCreateComponent } from './customer/customer-create/customer-create.component';
 import { CustomerDetailComponent } from './customer/customer-detail/customer-detail.component';
 import { CustomerUpdateComponent } from './customer/customer-update/customer-update.component';
+import { AccountListComponent } from './account/account-list/account-list.component';
+import { AccountCreateComponent } from './account/account-create/account-create.component';
+import { AccountDetailComponent } from './account/account-detail/account-detail.component';
+import { AccountUpdateComponent } from './account/account-update/account-update.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,10 @@ import { CustomerUpdateComponent } from './customer/customer-update/customer-upd
     CustomerCreateComponent,
     CustomerDetailComponent,
     CustomerUpdateComponent,
+    AccountListComponent,
+    AccountCreateComponent,
+    AccountDetailComponent,
+    AccountUpdateComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Customer } from './model/customer';
+import { Customer } from '../model/customer';
 
 @Injectable({
   providedIn: 'root',
@@ -37,14 +37,15 @@ export class CustomerService {
   }
 
   // EXTRA-GET
-  async getItemById(id: number) {
+  async getCustomerById(id: number) {
     let url = `${this.baseUrl}/customer/find/${id}`;
     return this.http.get<Customer>(url);
   }
 
+  ///////////////
   gotoCustomerListPage(router: Router) {
     this.refreshData();
-    console.log('Customer Data has been Refreshed!');
+    console.log('Customer data has been refreshed!');
     router.navigateByUrl('/cus-all-page');
     console.log('Navigated url:, customer list page');
   }

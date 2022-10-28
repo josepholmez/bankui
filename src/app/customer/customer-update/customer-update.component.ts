@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from './../customer-service';
-import { Customer } from './../model/customer';
+import { Customer } from '../../model/customer';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -20,7 +20,7 @@ export class CustomerUpdateComponent implements OnInit {
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id != null) {
-      let oCustomer = await this.service.getItemById(parseInt(id));
+      let oCustomer = await this.service.getCustomerById(parseInt(id));
       oCustomer.subscribe((result) => (this.customer = result));
     }
   }
