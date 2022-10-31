@@ -43,7 +43,7 @@ export class CustomerService {
   }
 
   ///////////////
-  gotoCustomerListPage(router: Router) {
+  async gotoCustomerListPage(router: Router) {
     this.refreshData();
     console.log('Customer data has been refreshed!');
     router.navigateByUrl('/cus-all-page');

@@ -26,8 +26,7 @@ export class CustomerUpdateComponent implements OnInit {
   }
 
   async onUpdateCustomerSubmit(updatedCustomer: Customer) {
-    let oCustomer = await this.service.updateCustomer(updatedCustomer);
-    oCustomer.subscribe((result) => {
+    (await this.service.updateCustomer(updatedCustomer)).subscribe((result) => {
       console.log('Updated customer: ', result);
     });
 

@@ -1,3 +1,6 @@
+import { LoginComponent } from './user/login/login.component';
+import { UserService } from './user/user.service';
+import { AccountService } from './account/account.service';
 import { AppRoutingModule } from './app-routing-module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -32,6 +35,7 @@ import { AccountUpdateComponent } from './account/account-update/account-update.
     AccountCreateComponent,
     AccountDetailComponent,
     AccountUpdateComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,7 @@ import { AccountUpdateComponent } from './account/account-update/account-update.
     FormsModule,
     HttpClientModule,
   ],
-  providers: [CustomerService],
+  providers: [CustomerService, AccountService, UserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
