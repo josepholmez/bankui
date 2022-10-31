@@ -1,5 +1,5 @@
-import { LoginComponent } from './user/login/login.component';
-import { UserService } from './user/user.service';
+import { MyAccountService } from './myaccount/myaccount.service';
+import { LoginComponent } from './myaccount/login/login.component';
 import { AccountService } from './account/account.service';
 import { AppRoutingModule } from './app-routing-module';
 import { NgModule } from '@angular/core';
@@ -44,7 +44,7 @@ import { AccountUpdateComponent } from './account/account-update/account-update.
     FormsModule,
     HttpClientModule,
   ],
-  providers: [CustomerService, AccountService, UserService],
+  providers: [CustomerService, AccountService, MyAccountService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
