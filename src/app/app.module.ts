@@ -22,6 +22,7 @@ import { CustomerService } from './customer/customer-service';
 import { AccountService } from './account/account.service';
 import { UserService } from './user/user.service';
 import { SignupComponent } from './user/signup/signup.component';
+import { MyaccountComponent } from './user/myaccount/myaccount.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SignupComponent } from './user/signup/signup.component';
     AccountUpdateComponent,
     LoginComponent,
     SignupComponent,
+    MyaccountComponent,
   ],
   imports: [
     BrowserModule,

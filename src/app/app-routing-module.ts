@@ -1,3 +1,4 @@
+import { MyaccountComponent } from './user/myaccount/myaccount.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { LoginComponent } from './user/login/login.component';
 import { AccountUpdateComponent } from './account/account-update/account-update.component';
@@ -29,6 +30,7 @@ const myroutes: Routes = [
 
   { path: 'login-page', component: LoginComponent },
   { path: 'signup-page', component: SignupComponent },
+  { path: 'myacc-page/:id', component: MyaccountComponent },
 ];
 
 @NgModule({
