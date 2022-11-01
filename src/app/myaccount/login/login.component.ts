@@ -11,29 +11,25 @@ import { User } from '../../model/user';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  username = '';
-  password = '';
-  isLogin: boolean = false;
+  user = new User();
 
-  constructor(
-    private service: MyAccountService,
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private service: MyAccountService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  async onLogin(username: string, password: string) {
-    (await this.service.loginUser(username, password)).subscribe((data) => {
-      this.isLogin = data;
+  async onLogin(loginForm: NgForm) {
+    this.user = loginForm.value;
+    console.log('User from html:', this.user);
+    (await this.service.loginUser(this.user)).subscribe((data) => {
+      this.user = data;
+      console.log('login after rest controller:', this.user);
+      alert('Login data');
     });
 
-    if (this.isLogin) {
-      this.username = username;
-      this.password = password;
-
+    if (this.user != null) {
       console.log('Login successfully!');
-      this.router.navigateByUrl('/all-cus-page');
+      alert('Login successfully!');
+      this.router.navigateByUrl('/acc-all-page');
     } else {
       console.log('Login failed!');
       alert('Login failed!');

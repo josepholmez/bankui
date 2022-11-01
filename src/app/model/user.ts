@@ -3,5 +3,12 @@ export class User {
   firstName: string;
   lastName: string;
   email: string | null;
-  password: string;
+  userType: UserType;
+  passwordHash: string;
+}
+
+export enum UserType {
+  APPLICATION = 'Application',
+  ADMIN = 'Admin',
+  REGULAR = 'Regular',
 }
