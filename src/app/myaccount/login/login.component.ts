@@ -21,8 +21,7 @@ export class LoginComponent implements OnInit {
     this.user = loginForm.value;
     console.log('User from html:', this.user);
     (await this.service.loginUser(this.user)).subscribe((data) => {
-      this.user = data;
-      console.log('login after rest controller:', this.user);
+      console.log('login after rest controller:', data);
       alert('Login data');
     });
 

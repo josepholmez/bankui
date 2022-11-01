@@ -15,7 +15,7 @@ export class MyAccountService {
   async loginUser(user: User) {
     let url = `${this.baseUrl}/login`;
     console.log('login url: ', url);
-    console.log('User in service: ', user);
-    return this.http.post<User>(url, user);
+    console.log('User in my account service: ', user);
+    return this.http.post(url, user);
   }
 }
