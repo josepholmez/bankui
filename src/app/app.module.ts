@@ -1,16 +1,11 @@
-import { MyAccountService } from './myaccount/myaccount.service';
-import { LoginComponent } from './myaccount/login/login.component';
-import { AccountService } from './account/account.service';
 import { AppRoutingModule } from './app-routing-module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
 
-import { CustomerService } from './customer/customer-service';
+import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CustomerListComponent } from './customer/customer-list/customer-list.component';
@@ -21,6 +16,12 @@ import { AccountListComponent } from './account/account-list/account-list.compon
 import { AccountCreateComponent } from './account/account-create/account-create.component';
 import { AccountDetailComponent } from './account/account-detail/account-detail.component';
 import { AccountUpdateComponent } from './account/account-update/account-update.component';
+import { LoginComponent } from './user/login/login.component';
+
+import { CustomerService } from './customer/customer-service';
+import { AccountService } from './account/account.service';
+import { UserService } from './user/user.service';
+import { SignupComponent } from './user/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AccountUpdateComponent } from './account/account-update/account-update.
     AccountDetailComponent,
     AccountUpdateComponent,
     LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,7 @@ import { AccountUpdateComponent } from './account/account-update/account-update.
     FormsModule,
     HttpClientModule,
   ],
-  providers: [CustomerService, AccountService, MyAccountService],
+  providers: [CustomerService, AccountService, UserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
