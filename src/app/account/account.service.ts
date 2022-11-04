@@ -1,3 +1,4 @@
+import { UserService } from './../user/user.service';
 import { Router } from '@angular/router';
 import { environment } from './../../environments/environment';
 import { Account } from '../model/account';
@@ -9,8 +10,9 @@ import { Injectable } from '@angular/core';
 })
 export class AccountService {
   baseUrl = environment.apiServer;
+  curUserAccounts: Account[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   //GET
   async getAccountList() {
@@ -51,5 +53,18 @@ export class AccountService {
   }
   refreshData() {
     this.getAccountList();
+  }
+
+  //GET
+  async getAccountsByCustomerId(id: number) {
+    let url = `${this.baseUrl}/account/myaccount/${id}`;
+    this.http.get<Account[]>(url).subscribe((resData) => {
+      this.curUserAccounts = resData;
+    });
+    return this.curUserAccounts;
+  }
+
+  getCurUserAccounts() {
+    this.curUserAccounts;
   }
 }

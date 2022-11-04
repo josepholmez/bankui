@@ -1,5 +1,4 @@
 import { MyaccountComponent } from './user/myaccount/myaccount.component';
-import { SignupComponent } from './user/signup/signup.component';
 import { LoginComponent } from './user/login/login.component';
 import { AccountUpdateComponent } from './account/account-update/account-update.component';
 import { AccountDetailComponent } from './account/account-detail/account-detail.component';
@@ -23,13 +22,12 @@ const myroutes: Routes = [
   { path: 'cus-detail-page/:id', component: CustomerDetailComponent },
   { path: 'cus-update-page/:id', component: CustomerUpdateComponent },
 
-  { path: 'acc-all-page', component: AccountListComponent },
+  { path: 'acc-all-page/:id', component: AccountListComponent },
   { path: 'acc-create-page', component: AccountCreateComponent },
   { path: 'acc-detail-page/:id', component: AccountDetailComponent },
   { path: 'acc-update-page/:id', component: AccountUpdateComponent },
 
   { path: 'login-page', component: LoginComponent },
-  { path: 'signup-page', component: SignupComponent },
   { path: 'myacc-page/:id', component: MyaccountComponent },
 ];
 

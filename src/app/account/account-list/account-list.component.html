@@ -5,17 +5,15 @@
         </a>
     </div>
 
-    <h3>Account List</h3>
+    <h3>My Account List</h3>
 
     <div *ngFor="let account of accounts">
-        <a
-            routerLink="/acc-detail-page/{{account.id}}">
+        <a routerLink="acc-detail-page/{{ customerId }}">
             {{ account.accountNumber }}
             {{ account.accountName }}
             ${{ account.balance }}
             {{ account.accountType }}
         </a>
-
     </div>
 
 </div>

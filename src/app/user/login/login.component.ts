@@ -1,6 +1,8 @@
+import { Account } from './../../model/account';
+import { AccountService } from './../../account/account.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../model/user';
 
@@ -11,27 +13,49 @@ import { User } from '../../model/user';
 })
 export class LoginComponent implements OnInit {
   user = new User();
+  loggedinUserId: number;
+  myaccounts: Account[] = [];
 
-  constructor(private service: UserService, private router: Router) {}
+  constructor(
+    private service: UserService,
+    private router: Router,
+    private accountService: AccountService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id != null) {
+      const oCurUser = await this.service.getCurrentUserById(parseInt(id));
+      oCurUser.subscribe((res) => {
+        this.user = res;
+      });
+      console.log('curUser on ngOnInit:', this.user);
+
+      if (this.user != null) {
+        this.loggedinUserId = this.user.id;
+        this.router.navigateByUrl(`/acc-all-page/${this.loggedinUserId}`);
+      }
+    }
+  }
 
   async onLogin(loginForm: NgForm) {
-    this.user = loginForm.value;
-    console.log('User from html:', this.user);
-    (await this.service.loginUser(this.user)).subscribe((data) => {
-      console.log('login after rest controller:', data);
-      alert('Login data');
-    });
-
-    if (this.user != null) {
+    console.log('***********:', loginForm.value);
+    let us: User;
+    (await this.service.loginUser(loginForm.value)).subscribe((res) => {
+      us = res;
+      console.log('-------Res data Id:', us.id);
+      console.log('-------Res data user name:', us.username);
+      console.log('-------Res data first name:', us.firstName);
       console.log('Login successfully!');
-      alert('Login successfully!');
-      this.router.navigateByUrl('/acc-all-page');
-    } else {
-      console.log('Login failed!');
-      alert('Login failed!');
-      this.router.navigateByUrl('/login-page');
-    }
+      this.router.navigateByUrl(`/acc-all-page/${us.id}`);
+    });
+  }
+
+  async getMyAccounts(customerId: number) {
+    this.myaccounts = await this.accountService.getAccountsByCustomerId(
+      customerId
+    );
+    console.log('My accounts:', this.myaccounts);
   }
 }

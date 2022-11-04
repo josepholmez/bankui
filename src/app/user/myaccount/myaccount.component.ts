@@ -1,6 +1,6 @@
 import { AccountService } from './../../account/account.service';
-import { ActivatedRoute } from '@angular/router';
-import { Account } from './../../model/account';
+import { UserService } from './../user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,16 +9,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./myaccount.component.css'],
 })
 export class MyaccountComponent implements OnInit {
-  myaccount: Account;
-
-  constructor(private route: ActivatedRoute, private service: AccountService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private accountService: AccountService,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id != null) {
-      (await this.service.getAccountById(parseInt(id))).subscribe((result) => {
-        this.myaccount = result;
-      });
+    let curUser = await this.userService.getCurrentUser();
+    if (curUser == null) {
+      this.router.navigateByUrl('login-page');
+    } else {
+      let cusId = curUser.customerId;
+      if (cusId != null) {
+        this.router.navigateByUrl(`/acc-all-page/${cusId}`);
+      }
     }
   }
 }

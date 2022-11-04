@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { User } from '../model/user';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -8,21 +9,31 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
   baseUrl = environment.apiServer;
+  oCurUser: Observable<User>;
 
   constructor(private http: HttpClient) {}
 
   //POST
-  async loginUser(user: User) {
+  async loginUser(user: User): Promise<Observable<User>> {
     let url = `${this.baseUrl}/user/login`;
-    console.log('login url: ', url);
-    console.log('User in my account service: ', user);
-    return this.http.post(url, user);
+    this.oCurUser = this.http.post<User>(url, user);
+    return this.oCurUser;
   }
 
-  //POST
-  async signupUser(user: User) {
-    let url = `${this.baseUrl}/user/add`;
-    console.log('New user:', user);
-    return this.http.post<User>(url, user);
+  //GET
+  async getCurrentUserById(id: number) {
+    let url = `${this.baseUrl}/user/find/${id}`;
+    return this.http.get<User>(url);
+  }
+
+  ///////
+  getCurrentUser(): User {
+    let user = new User();
+    if (this.oCurUser != null) {
+      this.oCurUser.subscribe((res) => {
+        user = res;
+      });
+    }
+    return user;
   }
 }
