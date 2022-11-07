@@ -24,18 +24,22 @@ export class LoginComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id != null) {
-      const oCurUser = await this.service.getCurrentUserById(parseInt(id));
+    let oCurUser = await this.service.getCurrentUser();
+    if (oCurUser != null) {
       oCurUser.subscribe((res) => {
-        this.user = res;
+        let cusId = res.customerId;
+        if (cusId != null) {
+          this.loggedinUserId = cusId;
+          console.log('in ngOnInit res user:', res);
+          this.router.navigateByUrl(`/acc-all-page/${this.loggedinUserId}`);
+        } else {
+          console.log('Cur user is null');
+          this.router.navigateByUrl('/login-page');
+        }
       });
-      console.log('curUser on ngOnInit:', this.user);
-
-      if (this.user != null) {
-        this.loggedinUserId = this.user.id;
-        this.router.navigateByUrl(`/acc-all-page/${this.loggedinUserId}`);
-      }
+    } else {
+      console.log('Cur user is null');
+      this.router.navigateByUrl('/login-page');
     }
   }
 
@@ -48,6 +52,9 @@ export class LoginComponent implements OnInit {
       console.log('-------Res data user name:', us.username);
       console.log('-------Res data first name:', us.firstName);
       console.log('Login successfully!');
+
+      this.loggedinUserId = us.id;
+      console.log('---Logged user id: ', this.loggedinUserId);
       this.router.navigateByUrl(`/acc-all-page/${us.id}`);
     });
   }

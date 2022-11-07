@@ -27,13 +27,7 @@ export class UserService {
   }
 
   ///////
-  getCurrentUser(): User {
-    let user = new User();
-    if (this.oCurUser != null) {
-      this.oCurUser.subscribe((res) => {
-        user = res;
-      });
-    }
-    return user;
+  async getCurrentUser() {
+    return this.oCurUser;
   }
 }

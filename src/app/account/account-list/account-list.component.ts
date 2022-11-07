@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountListComponent implements OnInit {
   accounts: Account[] = [];
-  customerId: number;
+  curUser: User;
 
   constructor(
     private accountService: AccountService,
@@ -20,12 +20,15 @@ export class AccountListComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    let curUser = await this.userService.getCurrentUser();
-    if (curUser != null) {
-      let cusId = curUser.customerId;
+    (await this.userService.getCurrentUser()).subscribe((res) => {
+      this.curUser = res;
+    });
+
+    if (this.curUser != null) {
+      let cusId = this.curUser.customerId;
       if (cusId != null) {
-        this.customerId = cusId;
-        this.getAccountList(this.customerId);
+        console.log('Customer id:', cusId);
+        this.getAccountList(cusId);
       }
     }
   }
