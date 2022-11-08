@@ -67,10 +67,11 @@ export class AccountService {
   getCurUserAccounts() {
     this.curUserAccounts;
   }
-
+  //////////////////////////////////////////////////////////////////////////
   //GET
   async getAccountsByUserId(userId: any) {
     let url = `${this.baseUrl}/account/user/${userId}`;
-    return this.http.get<Account[]>(url);
+    console.log('Cur user accounts url:', url);
+    return this.http.get(url);
   }
 }

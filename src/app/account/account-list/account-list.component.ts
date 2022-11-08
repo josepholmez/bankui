@@ -1,9 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
-import { Customer } from './../../model/customer';
-import { User } from './../../model/user';
 import { UserService } from './../../user/user.service';
 import { AccountService } from './../account.service';
-import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-list.component.css'],
 })
 export class AccountListComponent implements OnInit {
-  accounts: any[];
+  accounts: any;
   curUserId: any;
 
   constructor(
@@ -35,6 +32,8 @@ export class AccountListComponent implements OnInit {
     (await this.accountService.getAccountsByUserId(this.curUserId)).subscribe(
       (resData) => {
         this.accounts = resData;
+        console.log('Cur user res data:', resData);
+        console.log('Cur user accounts:', this.accounts);
       }
     );
   }

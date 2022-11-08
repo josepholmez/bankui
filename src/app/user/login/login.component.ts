@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
   responseData: any;
-  myaccounts: Account[] = [];
+  curUserId: any;
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -22,7 +22,16 @@ export class LoginComponent implements OnInit {
     localStorage.clear();
   }
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    if (this.userService.isLogged()) {
+      console.log('***logged user!!');
+      this.curUserId = this.userService.getCurrentUser();
+      console.log('***Logged user id:', this.curUserId);
+      this.router.navigateByUrl(`/acc-all-page/${this.curUserId}`);
+    } else {
+      console.log('***No loggedin user****');
+    }
+  }
 
   async onLogin() {
     if (this.loginForm.valid) {
@@ -31,7 +40,7 @@ export class LoginComponent implements OnInit {
           this.responseData = resData;
 
           if (this.responseData != null) {
-            localStorage.setItem('curUserId', this.responseData.id);
+            this.userService.setCurrentUser(this.responseData.id);
             console.log('***loggedin successfully!!!', this.responseData);
             this.router.navigateByUrl(`/acc-all-page/${this.responseData.id}`);
           } else {

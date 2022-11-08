@@ -17,10 +17,13 @@ export class UserService {
     return this.http.post(url, userCredential);
   }
 
-  logout() {
-    alert('Your session expired');
-    localStorage.clear();
-    this.router.navigateByUrl('/login-page');
+  async logout() {
+    if (this.isLogged()) {
+      alert('Your session expired');
+      sessionStorage.clear();
+      console.log('logged out!!');
+    }
+    await this.router.navigateByUrl('/home-page');
   }
 
   //GET
@@ -29,16 +32,17 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
-  ///////
+  ////////////////////////////////////////////////////////
   async getCurrentUser() {
-    return localStorage.getItem('curUserId') || '';
+    return sessionStorage.getItem('curUserId') || '';
   }
 
   isLogged() {
-    return localStorage.getItem('curUserId') != null;
+    return sessionStorage.getItem('curUserId') != null;
   }
 
   async setCurrentUser(curUserId: any) {
-    localStorage.setItem('curUserId', curUserId);
+    sessionStorage.setItem('curUserId', curUserId);
+    //localStorage.setItem('curUserId', curUserId);
   }
 }
