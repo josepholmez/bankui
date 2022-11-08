@@ -1,8 +1,7 @@
-import { AccountType } from './../../model/accountType';
-import { NgForm } from '@angular/forms';
+import { UserService } from './../../user/user.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Account } from '../../model/account';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from './../account.service';
 
 @Component({
@@ -11,20 +10,35 @@ import { AccountService } from './../account.service';
   styleUrls: ['./account-create.component.css'],
 })
 export class AccountCreateComponent implements OnInit {
-  account = new Account();
+  curUserId: any;
 
-  constructor(private service: AccountService, private router: Router) {
-    this.account.accountType = AccountType.CHECKING_CAD;
+  addForm = new FormGroup({
+    id: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+  });
+
+  constructor(
+    private service: AccountService,
+    private router: Router,
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
+
+  async ngOnInit() {
+    if (this.userService.isLogged()) {
+      console.log('Logged user!');
+      this.curUserId = this.route.snapshot.paramMap.get('id');
+    }
   }
 
-  async ngOnInit() {}
-
-  async onNewAccountSubmit(accountForm: NgForm) {
-    (await this.service.createNewAccount(accountForm.value)).subscribe(() => {
-      console.log('New created account:', accountForm.value);
-      accountForm.reset();
-    });
-
-    this.service.gotoAccountListPage(this.router);
+  async onNewAccountSubmit() {
+    if (this.addForm.valid) {
+      (await this.service.createNewAccount(this.addForm.value)).subscribe(
+        (res) => {
+          console.log('response', res);
+        }
+      );
+      this.router.navigateByUrl(`/acc-all-page/${this.curUserId.id}`);
+    }
   }
 }

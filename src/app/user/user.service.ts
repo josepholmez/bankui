@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { User } from '../model/user';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -9,25 +9,36 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
   baseUrl = environment.apiServer;
-  oCurUser: Observable<User>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  //POST
-  async loginUser(user: User): Promise<Observable<User>> {
+  async login(userCredential: any) {
     let url = `${this.baseUrl}/user/login`;
-    this.oCurUser = this.http.post<User>(url, user);
-    return this.oCurUser;
+    return this.http.post(url, userCredential);
+  }
+
+  logout() {
+    alert('Your session expired');
+    localStorage.clear();
+    this.router.navigateByUrl('/login-page');
   }
 
   //GET
-  async getCurrentUserById(id: number) {
+  async getCurrentUserById(id: any) {
     let url = `${this.baseUrl}/user/find/${id}`;
     return this.http.get<User>(url);
   }
 
   ///////
   async getCurrentUser() {
-    return this.oCurUser;
+    return localStorage.getItem('curUserId') || '';
+  }
+
+  isLogged() {
+    return localStorage.getItem('curUserId') != null;
+  }
+
+  async setCurrentUser(curUserId: any) {
+    localStorage.setItem('curUserId', curUserId);
   }
 }

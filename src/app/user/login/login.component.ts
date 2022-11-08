@@ -1,10 +1,8 @@
 import { Account } from './../../model/account';
-import { AccountService } from './../../account/account.service';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../model/user';
 
 @Component({
   selector: 'app-login',
@@ -12,57 +10,36 @@ import { User } from '../../model/user';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  user = new User();
-  loggedinUserId: number;
+  responseData: any;
   myaccounts: Account[] = [];
 
-  constructor(
-    private service: UserService,
-    private router: Router,
-    private accountService: AccountService,
-    private route: ActivatedRoute
-  ) {}
+  loginForm = new FormGroup({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
 
-  async ngOnInit() {
-    let oCurUser = await this.service.getCurrentUser();
-    if (oCurUser != null) {
-      oCurUser.subscribe((res) => {
-        let cusId = res.customerId;
-        if (cusId != null) {
-          this.loggedinUserId = cusId;
-          console.log('in ngOnInit res user:', res);
-          this.router.navigateByUrl(`/acc-all-page/${this.loggedinUserId}`);
-        } else {
-          console.log('Cur user is null');
-          this.router.navigateByUrl('/login-page');
+  constructor(private userService: UserService, private router: Router) {
+    localStorage.clear();
+  }
+
+  async ngOnInit() {}
+
+  async onLogin() {
+    if (this.loginForm.valid) {
+      (await this.userService.login(this.loginForm.value)).subscribe(
+        (resData) => {
+          this.responseData = resData;
+
+          if (this.responseData != null) {
+            localStorage.setItem('curUserId', this.responseData.id);
+            console.log('***loggedin successfully!!!', this.responseData);
+            this.router.navigateByUrl(`/acc-all-page/${this.responseData.id}`);
+          } else {
+            alert('login Failed');
+            this.router.navigateByUrl('/login-page');
+          }
         }
-      });
-    } else {
-      console.log('Cur user is null');
-      this.router.navigateByUrl('/login-page');
+      );
     }
-  }
-
-  async onLogin(loginForm: NgForm) {
-    console.log('***********:', loginForm.value);
-    let us: User;
-    (await this.service.loginUser(loginForm.value)).subscribe((res) => {
-      us = res;
-      console.log('-------Res data Id:', us.id);
-      console.log('-------Res data user name:', us.username);
-      console.log('-------Res data first name:', us.firstName);
-      console.log('Login successfully!');
-
-      this.loggedinUserId = us.id;
-      console.log('---Logged user id: ', this.loggedinUserId);
-      this.router.navigateByUrl(`/acc-all-page/${us.id}`);
-    });
-  }
-
-  async getMyAccounts(customerId: number) {
-    this.myaccounts = await this.accountService.getAccountsByCustomerId(
-      customerId
-    );
-    console.log('My accounts:', this.myaccounts);
   }
 }

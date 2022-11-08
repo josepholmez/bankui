@@ -19,7 +19,7 @@ export class CustomerService {
   }
 
   //POST
-  async createNewCustomer(newCustomer: Customer) {
+  async createNewCustomer(newCustomer: any) {
     let url = `${this.baseUrl}/customer/add`;
     return this.http.post<Customer>(url, newCustomer);
   }

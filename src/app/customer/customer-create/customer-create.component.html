@@ -1,29 +1,29 @@
 <h3>Create New Customer</h3>
 
 <div>
-    <form #customerForm="ngForm" (ngSubmit)="onNewCustomerSubmit(customerForm)">
+    <form [formGroup]="addCustomerForm" (ngSubmit)="onNewCustomerSubmit()">
         <div>
             <label for="firstName">First Name: </label>
             <input type="text" id="firstName" name="firstName"
-                [(ngModel)]="customer.firstName"/>
+                formControlName="firstName"/>
         </div>
 
         <div>
             <label for="lastName">Last Name: </label>
             <input type="text" id="lastName" name="lastName"
-                [(ngModel)]="customer.lastName"/>
+                formControlName="lastName"/>
         </div>
 
         <div>
             <label for="email">Email : </label>
             <input type="text" id="email" name="email"
-                [(ngModel)]="customer.email"/>
+                formControlName="email"/>
         </div>
 
         <div>
             <label for="address">Address: </label>
             <input type="text" id="addres" name="address"
-                [(ngModel)]="customer.address"/>
+                formControlName="address"/>
         </div>
         <div>
             <button type="submit"> Create</button>

@@ -21,7 +21,7 @@ export class AccountService {
   }
 
   //POST
-  async createNewAccount(newAccount: Account) {
+  async createNewAccount(newAccount: any) {
     let url = `${this.baseUrl}/account/add`;
     return this.http.post<Account>(url, newAccount);
   }
@@ -66,5 +66,11 @@ export class AccountService {
 
   getCurUserAccounts() {
     this.curUserAccounts;
+  }
+
+  //GET
+  async getAccountsByUserId(userId: any) {
+    let url = `${this.baseUrl}/account/user/${userId}`;
+    return this.http.get<Account[]>(url);
   }
 }

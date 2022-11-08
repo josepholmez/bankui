@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Customer } from './../../model/customer';
 import { User } from './../../model/user';
 import { UserService } from './../../user/user.service';
@@ -11,29 +12,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-list.component.css'],
 })
 export class AccountListComponent implements OnInit {
-  accounts: Account[] = [];
-  curUser: User;
+  accounts: any[];
+  curUserId: any;
 
   constructor(
     private accountService: AccountService,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
-    (await this.userService.getCurrentUser()).subscribe((res) => {
-      this.curUser = res;
-    });
-
-    if (this.curUser != null) {
-      let cusId = this.curUser.customerId;
-      if (cusId != null) {
-        console.log('Customer id:', cusId);
-        this.getAccountList(cusId);
+    if (this.userService.isLogged()) {
+      console.log('Logged user!');
+      this.curUserId = this.route.snapshot.paramMap.get('id');
+      if (this.curUserId != null) {
+        this.getAccountList();
       }
     }
   }
 
-  async getAccountList(id: number) {
-    this.accounts = await this.accountService.getAccountsByCustomerId(id);
+  async getAccountList() {
+    (await this.accountService.getAccountsByUserId(this.curUserId)).subscribe(
+      (resData) => {
+        this.accounts = resData;
+      }
+    );
   }
 }

@@ -1,3 +1,4 @@
+import { Customer } from './customer';
 import { AccountType } from './accountType';
 export class Account {
   id: number;
@@ -10,5 +11,6 @@ export class Account {
   openedOn: Date;
   closedOn: Date | null;
   balance: number;
+  customer: Customer;
   accountType: AccountType.CHECKING_CAD;
 }
