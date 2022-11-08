@@ -6,9 +6,8 @@
     <p> Balance: ${{ account.balance }}</p>
 
     <div>
-        <button class="back" routerLink="/acc-all-page">Back</button>
+        <button class="back" routerLink="/account/{{ curUserId }}">Back</button>
         <button class="update" routerLink="/acc-update-page/{{account.id}}">Update</button>
         <button class="delete" (click)="onDeleteAccount(account.id)">Delete</button>
     </div>
-
 </div>

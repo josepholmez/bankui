@@ -21,9 +21,9 @@ const myroutes: Routes = [
   { path: 'cus-detail-page/:id', component: CustomerDetailComponent },
   { path: 'cus-update-page/:id', component: CustomerUpdateComponent },
 
-  { path: 'acc-all-page/:id', component: AccountListComponent },
+  { path: 'account/:id', component: AccountListComponent },
+  { path: 'account/:id/detail/:id', component: AccountDetailComponent },
   { path: 'acc-create-page', component: AccountCreateComponent },
-  { path: 'acc-detail-page/:id', component: AccountDetailComponent },
   { path: 'acc-update-page/:id', component: AccountUpdateComponent },
 
   { path: 'login-page', component: LoginComponent },

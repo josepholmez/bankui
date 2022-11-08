@@ -1,6 +1,6 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from './../../user/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from './../account.service';
-import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,28 +9,38 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-detail.component.css'],
 })
 export class AccountDetailComponent implements OnInit {
-  account = new Account();
+  account: any;
+  curUserId: any;
 
   constructor(
-    private service: AccountService,
-    private route: ActivatedRoute,
-    private router: Router
+    private accountService: AccountService,
+    private router: Router,
+    private userService: UserService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id != null) {
-      (await this.service.getAccountById(parseInt(id))).subscribe((result) => {
-        this.account = result;
-      });
+    if (this.userService.isLogged()) {
+      this.curUserId = this.userService.getCurrentUser();
+      console.log('***Current user id:', this.curUserId);
+      this.getAccount();
     }
   }
 
-  async onDeleteAccount(id: number) {
-    (await this.service.deleteAccount(id)).subscribe(() =>
+  async getAccount() {
+    let accountId = this.route.snapshot.paramMap.get('id');
+    console.log('***Account id:', accountId);
+    (await this.accountService.getAccountById(accountId)).subscribe(
+      (resData) => {
+        this.account = resData;
+      }
+    );
+  }
+
+  async onDeleteAccount(id: any) {
+    (await this.accountService.deleteAccount(id)).subscribe(() =>
       console.log('Deleted account: ', id)
     );
-
-    this.service.gotoAccountListPage(this.router);
+    this.router.navigateByUrl(`/acc-all-page/${this.curUserId}`);
   }
 }

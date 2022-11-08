@@ -1,7 +1,6 @@
-import { Account } from './../../model/account';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -25,7 +24,7 @@ export class LoginComponent implements OnInit {
       console.log('***logged user!!');
       this.curUserId = this.userService.getCurrentUser();
       console.log('***Logged user id:', this.curUserId);
-      this.router.navigateByUrl(`/acc-all-page/${this.curUserId}`);
+      this.router.navigateByUrl(`/account/${this.curUserId}`);
     } else {
       console.log('***No loggedin user****');
     }

@@ -27,9 +27,9 @@ export class AccountService {
   }
 
   //DELETE
-  async deleteAccount(id: number) {
+  async deleteAccount(id: any) {
     let url = `${this.baseUrl}/account/delete/${id}`;
-    return this.http.delete<void>(url);
+    return this.http.delete(url);
   }
 
   //PUT
@@ -38,36 +38,12 @@ export class AccountService {
     return this.http.put<Account>(url, updatedAccount);
   }
 
-  // EXTRA-GET
-  async getAccountById(id: number) {
+  // GET
+  async getAccountById(id: any) {
     let url = `${this.baseUrl}/account/find/${id}`;
-    return this.http.get<Account>(url);
+    return this.http.get(url);
   }
 
-  ////////////////
-  gotoAccountListPage(router: Router) {
-    this.refreshData();
-    console.log('Account data has been refreshed!');
-    router.navigateByUrl('/acc-all-page');
-    console.log('Navigated url:, account list page');
-  }
-  refreshData() {
-    this.getAccountList();
-  }
-
-  //GET
-  async getAccountsByCustomerId(id: number) {
-    let url = `${this.baseUrl}/account/myaccount/${id}`;
-    this.http.get<Account[]>(url).subscribe((resData) => {
-      this.curUserAccounts = resData;
-    });
-    return this.curUserAccounts;
-  }
-
-  getCurUserAccounts() {
-    this.curUserAccounts;
-  }
-  //////////////////////////////////////////////////////////////////////////
   //GET
   async getAccountsByUserId(userId: any) {
     let url = `${this.baseUrl}/account/user/${userId}`;

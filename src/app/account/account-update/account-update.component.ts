@@ -1,6 +1,6 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { UserService } from './../../user/user.service';
 import { AccountService } from './../account.service';
-import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,28 +9,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-update.component.css'],
 })
 export class AccountUpdateComponent implements OnInit {
-  account = new Account();
+  account: any;
+  curUserId: any;
 
   constructor(
-    private service: AccountService,
-    private route: ActivatedRoute,
-    private router: Router
+    private accountService: AccountService,
+    private router: Router,
+    private userService: UserService
   ) {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id != null) {
-      let oAccount = await this.service.getAccountById(parseInt(id));
-      oAccount.subscribe((result) => (this.account = result));
+    if (this.userService.isLogged()) {
+      console.log('***logged user!!');
+      this.curUserId = this.userService.getCurrentUser();
+      (await this.accountService.getAccountById(this.curUserId)).subscribe(
+        (resData) => {
+          this.account = resData;
+        }
+      );
     }
   }
 
-  async onUpdateAccountSubmit(updatedAccount: Account) {
-    let oAccount = await this.service.updateAccount(updatedAccount);
-    oAccount.subscribe((result) => {
-      console.log('Updated account: ', result);
+  async onUpdateAccountSubmit(uAccount: any) {
+    (await this.accountService.updateAccount(uAccount)).subscribe((resData) => {
+      console.log('Updated account: ', resData);
     });
-
-    this.service.gotoAccountListPage(this.router);
+    this.router.navigateByUrl(`/acc-all-page/${this.curUserId}`);
   }
 }
