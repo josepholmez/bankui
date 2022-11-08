@@ -33,8 +33,8 @@ export class UserService {
   }
 
   ////////////////////////////////////////////////////////
-  async getCurrentUser() {
-    return sessionStorage.getItem('curUserId') || '';
+  getCurrentUser() {
+    return sessionStorage.getItem('curUserId');
   }
 
   isLogged() {

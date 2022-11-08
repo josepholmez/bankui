@@ -18,9 +18,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private userService: UserService, private router: Router) {
-    localStorage.clear();
-  }
+  constructor(private userService: UserService, private router: Router) {}
 
   async ngOnInit() {
     if (this.userService.isLogged()) {
