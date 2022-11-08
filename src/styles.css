@@ -61,7 +61,7 @@ div {
 .logout {
     background-color: gray;
     color: white;
-    outline: none;
-    padding: 4px 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
 }
 
