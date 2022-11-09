@@ -32,17 +32,19 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
-  ////////////////////////////////////////////////////////
-  getCurrentUser() {
-    return sessionStorage.getItem('curUserId');
+  //Current user
+  getCurrentUserId(): any {
+    if (this.isLogged()) {
+      console.log('***logged user!!');
+      return sessionStorage.getItem(environment.currentUserKey);
+    }
   }
 
   isLogged() {
-    return sessionStorage.getItem('curUserId') != null;
+    return sessionStorage.getItem(environment.currentUserKey) != null;
   }
 
-  async setCurrentUser(curUserId: any) {
-    sessionStorage.setItem('curUserId', curUserId);
-    //localStorage.setItem('curUserId', curUserId);
+  setCurrentUser(curUserId: any) {
+    sessionStorage.setItem(environment.currentUserKey, curUserId);
   }
 }

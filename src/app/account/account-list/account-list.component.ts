@@ -20,11 +20,8 @@ export class AccountListComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    if (this.userService.isLogged()) {
-      this.curUserId = this.userService.getCurrentUser();
-      console.log('***Current user id:', this.curUserId);
-      this.getCurUserAccounts();
-    }
+    this.curUserId = this.userService.getCurrentUserId();
+    this.getCurUserAccounts();
   }
 
   async getCurUserAccounts() {
@@ -32,7 +29,6 @@ export class AccountListComponent implements OnInit {
       (resData) => {
         this.accounts = resData;
         console.log('Cur user res data:', resData);
-        console.log('Cur user accounts:', this.accounts);
       }
     );
   }

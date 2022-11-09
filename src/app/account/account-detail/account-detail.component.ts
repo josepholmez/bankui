@@ -1,3 +1,4 @@
+import { NavigationService } from './../../navigation/navigation.service';
 import { UserService } from './../../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from './../account.service';
@@ -14,17 +15,14 @@ export class AccountDetailComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private router: Router,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navService: NavigationService
   ) {}
 
   async ngOnInit() {
-    if (this.userService.isLogged()) {
-      this.curUserId = this.userService.getCurrentUser();
-      console.log('***Current user id:', this.curUserId);
-      this.getAccount();
-    }
+    this.curUserId = this.userService.getCurrentUserId();
+    this.getAccount();
   }
 
   async getAccount() {
@@ -33,6 +31,7 @@ export class AccountDetailComponent implements OnInit {
     (await this.accountService.getAccountById(accountId)).subscribe(
       (resData) => {
         this.account = resData;
+        console.log('Account:', this.account);
       }
     );
   }
@@ -41,6 +40,6 @@ export class AccountDetailComponent implements OnInit {
     (await this.accountService.deleteAccount(id)).subscribe(() =>
       console.log('Deleted account: ', id)
     );
-    this.router.navigateByUrl(`/acc-all-page/${this.curUserId}`);
+    this.navService.goToAccountListPage();
   }
 }

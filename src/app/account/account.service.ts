@@ -1,5 +1,4 @@
 import { UserService } from './../user/user.service';
-import { Router } from '@angular/router';
 import { environment } from './../../environments/environment';
 import { Account } from '../model/account';
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +9,6 @@ import { Injectable } from '@angular/core';
 })
 export class AccountService {
   baseUrl = environment.apiServer;
-  curUserAccounts: Account[] = [];
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
@@ -33,15 +31,17 @@ export class AccountService {
   }
 
   //PUT
-  async updateAccount(updatedAccount: Account) {
-    let url = `${this.baseUrl}/account/update/${updatedAccount.id}`;
-    return this.http.put<Account>(url, updatedAccount);
+  async updateAccount(uAccount: any) {
+    console.log('Update account id:', uAccount.id);
+    let url = `${this.baseUrl}/account/update/${uAccount.id}`;
+    console.log('Update account url:', url);
+    return this.http.put(url, uAccount);
   }
 
   // GET
   async getAccountById(id: any) {
     let url = `${this.baseUrl}/account/find/${id}`;
-    return this.http.get(url);
+    return this.http.get<Account>(url);
   }
 
   //GET

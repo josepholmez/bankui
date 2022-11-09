@@ -1,3 +1,4 @@
+import { NavigationService } from './../../navigation/navigation.service';
 import { UserService } from './../../user/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -19,16 +20,12 @@ export class AccountCreateComponent implements OnInit {
 
   constructor(
     private service: AccountService,
-    private router: Router,
     private userService: UserService,
-    private route: ActivatedRoute
+    private navService: NavigationService
   ) {}
 
   async ngOnInit() {
-    if (this.userService.isLogged()) {
-      console.log('Logged user!');
-      this.curUserId = this.route.snapshot.paramMap.get('id');
-    }
+    this.curUserId = this.userService.getCurrentUserId();
   }
 
   async onNewAccountSubmit() {
@@ -38,7 +35,7 @@ export class AccountCreateComponent implements OnInit {
           console.log('response', res);
         }
       );
-      this.router.navigateByUrl(`/acc-all-page/${this.curUserId.id}`);
+      this.navService.goToAccountListPage();
     }
   }
 }

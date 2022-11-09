@@ -1,13 +1,13 @@
 <div>
 
-    <p> Account Number: {{ account.accountNumber }} </p>
-    <p> Account Name: {{ account.accountName }} </p>
-    <p> Account Type: {{ account.accountType }} </p>
-    <p> Balance: ${{ account.balance }}</p>
+    <p> Account Number: {{ account?.accountNumber }} </p>
+    <p> Account Name: {{ account?.accountName }} </p>
+    <p> Account Type: {{ account?.accountType }} </p>
+    <p> Balance: ${{ account?.balance }}</p>
 
     <div>
         <button class="back" routerLink="/account/{{ curUserId }}">Back</button>
-        <button class="update" routerLink="/acc-update-page/{{account.id}}">Update</button>
-        <button class="delete" (click)="onDeleteAccount(account.id)">Delete</button>
+        <button class="update" routerLink="/acc-update-page/{{account?.id}}">Update</button>
+        <button class="delete" (click)="onDeleteAccount(account?.id)">Delete</button>
     </div>
 </div>

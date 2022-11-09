@@ -1,4 +1,6 @@
-import { Router } from '@angular/router';
+import { NavigationService } from './../../navigation/navigation.service';
+import { Account } from './../../model/account';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './../../user/user.service';
 import { AccountService } from './../account.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,31 +11,40 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-update.component.css'],
 })
 export class AccountUpdateComponent implements OnInit {
-  account: any;
+  account = new Account();
   curUserId: any;
 
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private navService: NavigationService
   ) {}
 
   async ngOnInit() {
-    if (this.userService.isLogged()) {
-      console.log('***logged user!!');
-      this.curUserId = this.userService.getCurrentUser();
-      (await this.accountService.getAccountById(this.curUserId)).subscribe(
-        (resData) => {
-          this.account = resData;
-        }
-      );
-    }
+    this.curUserId = this.userService.getCurrentUserId();
+    this.getAccount();
   }
 
-  async onUpdateAccountSubmit(uAccount: any) {
-    (await this.accountService.updateAccount(uAccount)).subscribe((resData) => {
-      console.log('Updated account: ', resData);
-    });
-    this.router.navigateByUrl(`/acc-all-page/${this.curUserId}`);
+  async getAccount() {
+    let accountId = this.route.snapshot.paramMap.get('id');
+    console.log('***Account id:', accountId);
+    (await this.accountService.getAccountById(accountId)).subscribe(
+      (resData) => {
+        this.account = resData;
+        console.log('***Account:', this.account);
+      }
+    );
+  }
+
+  async onUpdateAccountSubmit(updatedAccount: Account) {
+    console.log('update form value: ', updatedAccount);
+    (await this.accountService.updateAccount(updatedAccount)).subscribe(
+      (resData) => {
+        console.log('Updated res data account: ', resData);
+      }
+    );
+    await this.navService.goToAccountListPage();
   }
 }

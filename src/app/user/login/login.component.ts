@@ -1,3 +1,4 @@
+import { NavigationService } from './../../navigation/navigation.service';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -17,16 +18,16 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private navService: NavigationService
+  ) {}
 
   async ngOnInit() {
-    if (this.userService.isLogged()) {
-      console.log('***logged user!!');
-      this.curUserId = this.userService.getCurrentUser();
-      console.log('***Logged user id:', this.curUserId);
-      this.router.navigateByUrl(`/account/${this.curUserId}`);
-    } else {
-      console.log('***No loggedin user****');
+    this.curUserId = this.userService.getCurrentUserId();
+    if (this.curUserId != null) {
+      console.log('***Loggedin successfully!', this.responseData);
+      this.navService.goToAccountListPage();
     }
   }
 
@@ -37,12 +38,12 @@ export class LoginComponent implements OnInit {
           this.responseData = resData;
 
           if (this.responseData != null) {
+            console.log('***Loggedin successfully!', this.responseData);
             this.userService.setCurrentUser(this.responseData.id);
-            console.log('***loggedin successfully!!!', this.responseData);
-            this.router.navigateByUrl(`/acc-all-page/${this.responseData.id}`);
+            this.navService.goToAccountListPage();
           } else {
-            alert('login Failed');
-            this.router.navigateByUrl('/login-page');
+            alert('Login failed!!!');
+            this.navService.goToLoginPage();
           }
         }
       );
