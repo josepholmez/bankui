@@ -3,6 +3,7 @@ import { environment } from './../../environments/environment';
 import { Account } from '../model/account';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -45,9 +46,9 @@ export class AccountService {
   }
 
   //GET
-  async getAccountsByUserId(userId: any) {
-    let url = `${this.baseUrl}/account/user/${userId}`;
+  async getAccountsByUserId(userId: any): Promise<Observable<Account[]>> {
+    let url = `${this.baseUrl}/account/${userId}`;
     console.log('Cur user accounts url:', url);
-    return this.http.get(url);
+    return this.http.get<Account[]>(url);
   }
 }

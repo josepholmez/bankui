@@ -1,3 +1,6 @@
+import { Customer } from './../../model/customer';
+import { CustomerService } from './../../customer/customer-service';
+import { Account } from './../../model/account';
 import { NavigationService } from './../../navigation/navigation.service';
 import { UserService } from './../../user/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -11,32 +14,39 @@ import { AccountService } from './../account.service';
 })
 export class AccountCreateComponent implements OnInit {
   curUserId: any;
-
-  addForm = new FormGroup({
-    id: new FormControl(),
-    name: new FormControl('', Validators.required),
-    accountNumber: new FormControl(),
-  });
+  account = new Account();
+  customer = new Customer();
 
   constructor(
-    private service: AccountService,
+    private accountService: AccountService,
     private userService: UserService,
-    private navService: NavigationService
+    private navService: NavigationService,
+    private cusService: CustomerService
   ) {}
 
   async ngOnInit() {
     this.curUserId = this.userService.getCurrentUserId();
+    this.getCustomer();
   }
 
-  async onNewAccountSubmit() {
-    console.log('Add form value', this.addForm.value);
-    if (this.addForm.valid) {
-      (await this.service.createNewAccount(this.addForm.value)).subscribe(
-        (res) => {
-          console.log('response', res);
-        }
-      );
-      this.navService.goToAccountListPage();
-    }
+  async onNewAccountSubmit(account: Account) {
+    account.customer = this.customer;
+
+    (await this.accountService.createNewAccount(account)).subscribe(
+      (resData) => {
+        this.account = resData;
+        console.log('Response account:', resData);
+      }
+    );
+    this.navService.goToAccountListPage();
+  }
+
+  async getCustomer() {
+    (await this.cusService.getCustomerById(this.curUserId)).subscribe(
+      (resData) => {
+        this.customer = resData;
+        console.log('Curuser customer:', this.customer);
+      }
+    );
   }
 }

@@ -9,7 +9,7 @@
 
     <div *ngFor="let account of accounts">
         <a routerLink="detail/{{ account.id }}">
-            {{ account.accountName }}
+            {{ account.accountName }} &nbsp;
             ${{ account.balance }}
         </a>
     </div>
