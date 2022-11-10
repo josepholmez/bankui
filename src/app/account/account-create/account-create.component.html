@@ -1,10 +1,13 @@
 <h3>Create New Account</h3>
 
 <div>
-    <form [formGroup="addForm" (ngSubmit)="onNewAccountSubmit()">
+    <form [formGroup]="addForm" (ngSubmit)="onNewAccountSubmit()">
+
         <div>
             <label for="accountNumber">Account Number: Will be created when
                 click on create button</label>
+            <input type="hidden" id="accountNumber" name="accountNumber"
+                formControlName="accountNumber"/>
         </div>
 
         <div>
@@ -13,7 +16,7 @@
 
 
         <div>
-            <label for="accountName">Account Name: </label>
+            <label for="name">Account Name: </label>
             <input type="text" id="name" name="name" formControlName="name"/>
         </div>
 

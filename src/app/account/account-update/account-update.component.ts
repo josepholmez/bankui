@@ -16,7 +16,6 @@ export class AccountUpdateComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private router: Router,
     private userService: UserService,
     private route: ActivatedRoute,
     private navService: NavigationService

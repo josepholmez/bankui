@@ -1,7 +1,6 @@
+import { Customer } from './../../model/customer';
 import { NavigationService } from './../../navigation/navigation.service';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,11 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   responseData: any;
   curUserId: any;
-
-  loginForm = new FormGroup({
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-  });
+  customer = new Customer();
 
   constructor(
     private userService: UserService,
@@ -31,22 +26,18 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  async onLogin() {
-    if (this.loginForm.valid) {
-      (await this.userService.login(this.loginForm.value)).subscribe(
-        (resData) => {
-          this.responseData = resData;
+  async onLogin(cre: Customer) {
+    (await this.userService.login(cre)).subscribe((resData) => {
+      this.responseData = resData;
 
-          if (this.responseData != null) {
-            console.log('***Loggedin successfully!', this.responseData);
-            this.userService.setCurrentUser(this.responseData.id);
-            this.navService.goToAccountListPage();
-          } else {
-            alert('Login failed!!!');
-            this.navService.goToLoginPage();
-          }
-        }
-      );
-    }
+      if (this.responseData != null) {
+        console.log('***Loggedin successfully!', this.responseData);
+        this.userService.setCurrentUserId(this.responseData.id);
+        this.navService.goToAccountListPage();
+      } else {
+        alert('Login failed!!!');
+        this.navService.goToLoginPage();
+      }
+    });
   }
 }

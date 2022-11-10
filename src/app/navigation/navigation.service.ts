@@ -16,7 +16,10 @@ export class NavigationService {
   ) {}
 
   async ngOnInit() {
-    this.curUserId = this.userService.getCurrentUserId();
+    let id = this.userService.getCurrentUserId();
+    if (id != null) {
+      this.curUserId = id;
+    }
   }
 
   async goToAccountListPage() {
@@ -26,6 +29,10 @@ export class NavigationService {
 
   async goToLoginPage() {
     await this.router.navigateByUrl(`/login-page`);
+  }
+
+  async goToHomePage() {
+    await this.router.navigateByUrl(`/home-page`);
   }
 
   refreshAccounts() {

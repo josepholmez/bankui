@@ -2,7 +2,6 @@ import { NavigationService } from './../../navigation/navigation.service';
 import { UserService } from './../../user/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from './../account.service';
 
 @Component({
@@ -14,8 +13,9 @@ export class AccountCreateComponent implements OnInit {
   curUserId: any;
 
   addForm = new FormGroup({
-    id: new FormControl('', Validators.required),
+    id: new FormControl(),
     name: new FormControl('', Validators.required),
+    accountNumber: new FormControl(),
   });
 
   constructor(
@@ -29,6 +29,7 @@ export class AccountCreateComponent implements OnInit {
   }
 
   async onNewAccountSubmit() {
+    console.log('Add form value', this.addForm.value);
     if (this.addForm.valid) {
       (await this.service.createNewAccount(this.addForm.value)).subscribe(
         (res) => {

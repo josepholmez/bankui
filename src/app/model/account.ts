@@ -1,5 +1,4 @@
 import { Customer } from './customer';
-import { AccountType } from './accountType';
 export class Account {
   id: number;
   deleted: boolean;
@@ -13,4 +12,11 @@ export class Account {
   balance: number;
   customer: Customer;
   accountType: AccountType.CHECKING_CAD;
+}
+
+export enum AccountType {
+  CHECKING_CAD = 'Checking-CAD',
+  SAVING_CAD = 'Saving-CAD',
+  CHECKING_USD = 'Checking-USD',
+  SAVING_USD = 'Saving-USD',
 }

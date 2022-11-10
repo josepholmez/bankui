@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class AccountService {
   baseUrl = environment.apiServer;
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient) {}
 
   //GET
   async getAccountList() {

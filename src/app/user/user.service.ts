@@ -1,5 +1,3 @@
-import { Router } from '@angular/router';
-import { User } from '../model/user';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -10,11 +8,15 @@ import { Injectable } from '@angular/core';
 export class UserService {
   baseUrl = environment.apiServer;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
-  async login(userCredential: any) {
-    let url = `${this.baseUrl}/user/login`;
-    return this.http.post(url, userCredential);
+  async ngOnInit() {}
+
+  async login(credential: any) {
+    let url = `${this.baseUrl}/customer/login`;
+    console.log('***Cur user url:', url);
+    console.log('***Cur credential:', credential);
+    return this.http.post(url, credential);
   }
 
   async logout() {
@@ -23,28 +25,34 @@ export class UserService {
       sessionStorage.clear();
       console.log('logged out!!');
     }
-    await this.router.navigateByUrl('/home-page');
+    //this.navService.goToHomePage();
   }
 
-  //GET
-  async getCurrentUserById(id: any) {
-    let url = `${this.baseUrl}/user/find/${id}`;
-    return this.http.get<User>(url);
-  }
-
-  //Current user
   getCurrentUserId(): any {
     if (this.isLogged()) {
       console.log('***logged user!!');
-      return sessionStorage.getItem(environment.currentUserKey);
+      return sessionStorage.getItem(environment.currentUserIdKey);
     }
   }
 
   isLogged() {
-    return sessionStorage.getItem(environment.currentUserKey) != null;
+    return sessionStorage.getItem(environment.currentUserIdKey) != null;
   }
 
-  setCurrentUser(curUserId: any) {
-    sessionStorage.setItem(environment.currentUserKey, curUserId);
+  setCurrentUserId(curUserId: any) {
+    sessionStorage.setItem(environment.currentUserIdKey, curUserId);
+  }
+
+  isAdmin(): boolean {
+    let admin = false;
+    if (this.isLogged()) {
+      let id = this.getCurrentUserId();
+      let url = `${this.baseUrl}/customer/type/${id}`;
+      this.http.get<boolean>(url).subscribe((resData) => {
+        admin = resData;
+        console.log('User type is REGULAR', admin);
+      });
+    }
+    return admin;
   }
 }

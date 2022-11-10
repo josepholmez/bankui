@@ -1,3 +1,4 @@
+import { NavigationService } from './navigation/navigation.service';
 import { AppRoutingModule } from './app-routing-module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,7 +46,7 @@ import { UserService } from './user/user.service';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [CustomerService, AccountService, UserService],
+  providers: [CustomerService, AccountService, UserService, NavigationService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
