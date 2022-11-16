@@ -1,3 +1,4 @@
+import { CustomerService } from './../../customer/customer-service';
 import { NavigationService } from './../../navigation/navigation.service';
 import { UserService } from './../../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,17 +13,20 @@ import { Component, OnInit } from '@angular/core';
 export class AccountDetailComponent implements OnInit {
   account: any;
   curUserId: any;
+  cusNumber: any;
 
   constructor(
     private accountService: AccountService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private navService: NavigationService
+    private navService: NavigationService,
+    private cusService: CustomerService
   ) {}
 
   async ngOnInit() {
     this.curUserId = this.userService.getCurrentUserId();
-    this.getAccount();
+    await this.getAccount();
+    await this.getCustomer();
   }
 
   async getAccount() {
@@ -32,6 +36,14 @@ export class AccountDetailComponent implements OnInit {
       (resData) => {
         this.account = resData;
         console.log('Account:', this.account);
+      }
+    );
+  }
+
+  async getCustomer() {
+    (await this.cusService.getCustomerById(this.curUserId)).subscribe(
+      (resData) => {
+        this.cusNumber = resData.cusNumber;
       }
     );
   }

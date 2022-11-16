@@ -32,11 +32,11 @@ export class AccountService {
   }
 
   //PUT
-  async updateAccount(uAccount: any) {
-    console.log('Update account id:', uAccount.id);
+  async updateAccount(uAccount: Account) {
+    console.log('Updated account id:', uAccount);
     let url = `${this.baseUrl}/account/update/${uAccount.id}`;
-    console.log('Update account url:', url);
-    return this.http.put(url, uAccount);
+    console.log('Updated account url:', url);
+    return this.http.put<any>(url, uAccount);
   }
 
   // GET
