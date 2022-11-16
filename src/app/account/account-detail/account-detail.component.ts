@@ -1,6 +1,8 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerService } from './../../customer/customer-service';
+import { NavigationService } from './../../navigation/navigation.service';
+import { UserService } from './../../user/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from './../account.service';
-import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,28 +11,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-detail.component.css'],
 })
 export class AccountDetailComponent implements OnInit {
-  account = new Account();
+  account: any;
+  curUserId: any;
+  cusNumber: any;
 
   constructor(
-    private service: AccountService,
+    private accountService: AccountService,
+    private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private navService: NavigationService,
+    private cusService: CustomerService
   ) {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id != null) {
-      (await this.service.getAccountById(parseInt(id))).subscribe((result) => {
-        this.account = result;
-      });
-    }
+    this.curUserId = this.userService.getCurrentUserId();
+    await this.getAccount();
+    await this.getCustomer();
   }
 
-  async onDeleteAccount(id: number) {
-    (await this.service.deleteAccount(id)).subscribe(() =>
+  async getAccount() {
+    let accountId = this.route.snapshot.paramMap.get('id');
+    console.log('***Account id:', accountId);
+    (await this.accountService.getAccountById(accountId)).subscribe(
+      (resData) => {
+        this.account = resData;
+        console.log('Account:', this.account);
+      }
+    );
+  }
+
+  async getCustomer() {
+    (await this.cusService.getCustomerById(this.curUserId)).subscribe(
+      (resData) => {
+        this.cusNumber = resData.cusNumber;
+      }
+    );
+  }
+
+  async onDeleteAccount(id: any) {
+    (await this.accountService.deleteAccount(id)).subscribe(() =>
       console.log('Deleted account: ', id)
     );
-
-    this.service.gotoAccountListPage(this.router);
+    this.navService.goToAccountListPage();
   }
 }

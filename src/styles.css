@@ -58,3 +58,10 @@ div {
     background-color: blue;
 }
 
+.logout {
+    background-color: gray;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+

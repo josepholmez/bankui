@@ -1,8 +1,10 @@
-import { AccountType } from './../../model/accountType';
-import { NgForm } from '@angular/forms';
+import { Customer } from './../../model/customer';
+import { CustomerService } from './../../customer/customer-service';
+import { Account } from './../../model/account';
+import { NavigationService } from './../../navigation/navigation.service';
+import { UserService } from './../../user/user.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Account } from '../../model/account';
 import { AccountService } from './../account.service';
 
 @Component({
@@ -11,20 +13,40 @@ import { AccountService } from './../account.service';
   styleUrls: ['./account-create.component.css'],
 })
 export class AccountCreateComponent implements OnInit {
+  curUserId: any;
   account = new Account();
+  customer = new Customer();
 
-  constructor(private service: AccountService, private router: Router) {
-    this.account.accountType = AccountType.CHECKING_CAD;
+  constructor(
+    private accountService: AccountService,
+    private userService: UserService,
+    private navService: NavigationService,
+    private cusService: CustomerService
+  ) {}
+
+  async ngOnInit() {
+    this.curUserId = this.userService.getCurrentUserId();
+    this.getCustomer();
   }
 
-  async ngOnInit() {}
+  async onNewAccountSubmit(account: Account) {
+    account.customer = this.customer;
 
-  async onNewAccountSubmit(accountForm: NgForm) {
-    (await this.service.createNewAccount(accountForm.value)).subscribe(() => {
-      console.log('New created account:', accountForm.value);
-      accountForm.reset();
-    });
+    (await this.accountService.createNewAccount(account)).subscribe(
+      (resData) => {
+        this.account = resData;
+        console.log('Response account:', resData);
+      }
+    );
+    this.navService.goToAccountListPage();
+  }
 
-    this.service.gotoAccountListPage(this.router);
+  async getCustomer() {
+    (await this.cusService.getCustomerById(this.curUserId)).subscribe(
+      (resData) => {
+        this.customer = resData;
+        console.log('Curuser customer:', this.customer);
+      }
+    );
   }
 }

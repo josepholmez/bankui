@@ -4,18 +4,14 @@
                 Account</button>
         </a>
     </div>
-
-    <h3>Account List</h3>
+    <br>
+    <h3>My Account List</h3>
 
     <div *ngFor="let account of accounts">
-        <a
-            routerLink="/acc-detail-page/{{account.id}}">
-            {{ account.accountNumber }}
-            {{ account.accountName }}
+        <a routerLink="detail/{{ account.id }}">
+            {{ account.accountName }} &nbsp;
             ${{ account.balance }}
-            {{ account.accountType }}
         </a>
-
     </div>
 
 </div>

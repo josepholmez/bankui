@@ -1,3 +1,5 @@
+import { NavigationService } from './navigation.service';
+import { UserService } from './../user/user.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation.component.css'],
 })
 export class NavigationComponent implements OnInit {
-  constructor() {}
+  isAdmin = false;
+  cusDisplay = '';
 
-  ngOnInit(): void {}
+  constructor(
+    private userService: UserService,
+    private navService: NavigationService
+  ) {}
+
+  async ngOnInit() {
+    this.isAdmin = this.userService.isAdmin();
+    this.cusDisplay = this.isAdmin ? 'Customers' : '';
+  }
+
+  async onLogout() {
+    this.userService.logout();
+    await this.navService.goToHomePage();
+  }
 }

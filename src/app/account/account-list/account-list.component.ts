@@ -1,6 +1,9 @@
+import { Account } from './../../model/account';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from './../../user/user.service';
 import { AccountService } from './../account.service';
-import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-account-list',
@@ -9,16 +12,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountListComponent implements OnInit {
   accounts: Account[] = [];
+  curUserId: any;
 
-  constructor(private service: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private userService: UserService
+  ) {}
 
   async ngOnInit() {
-    this.getAccountList();
+    this.curUserId = this.userService.getCurrentUserId();
+    this.getCurUserAccounts();
   }
 
-  async getAccountList() {
-    (await this.service.getAccountList()).subscribe((result) => {
-      this.accounts = result;
-    });
+  async getCurUserAccounts() {
+    (await this.accountService.getAccountsByUserId(this.curUserId)).subscribe(
+      (resData) => {
+        this.accounts = resData;
+        console.log('User accounts res data:', resData);
+        console.log('User accounts[0] customer:', resData[0].customer);
+        console.log('User accounts[1] customer:', resData[1].customer);
+      }
+    );
   }
 }

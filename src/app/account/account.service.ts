@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { UserService } from './../user/user.service';
 import { environment } from './../../environments/environment';
 import { Account } from '../model/account';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,37 +20,35 @@ export class AccountService {
   }
 
   //POST
-  async createNewAccount(newAccount: Account) {
+  async createNewAccount(newAccount: any) {
     let url = `${this.baseUrl}/account/add`;
     return this.http.post<Account>(url, newAccount);
   }
 
   //DELETE
-  async deleteAccount(id: number) {
+  async deleteAccount(id: any) {
     let url = `${this.baseUrl}/account/delete/${id}`;
-    return this.http.delete<void>(url);
+    return this.http.delete(url);
   }
 
   //PUT
-  async updateAccount(updatedAccount: Account) {
-    let url = `${this.baseUrl}/account/update/${updatedAccount.id}`;
-    return this.http.put<Account>(url, updatedAccount);
+  async updateAccount(uAccount: Account) {
+    console.log('Updated account id:', uAccount);
+    let url = `${this.baseUrl}/account/update/${uAccount.id}`;
+    console.log('Updated account url:', url);
+    return this.http.put<any>(url, uAccount);
   }
 
-  // EXTRA-GET
-  async getAccountById(id: number) {
+  // GET
+  async getAccountById(id: any) {
     let url = `${this.baseUrl}/account/find/${id}`;
     return this.http.get<Account>(url);
   }
 
-  ////////////////
-  gotoAccountListPage(router: Router) {
-    this.refreshData();
-    console.log('Account data has been refreshed!');
-    router.navigateByUrl('/acc-all-page');
-    console.log('Navigated url:, account list page');
-  }
-  refreshData() {
-    this.getAccountList();
+  //GET
+  async getAccountsByUserId(userId: any): Promise<Observable<Account[]>> {
+    let url = `${this.baseUrl}/account/${userId}`;
+    console.log('Cur user accounts url:', url);
+    return this.http.get<Account[]>(url);
   }
 }

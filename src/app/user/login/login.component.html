@@ -1,0 +1,16 @@
+<div>
+    <form (ngSubmit)="onLogin(customer)">
+        <div>
+            <label for="cusNumber">Customer Number:</label>
+            <input type="text" id="cusNumber" name="cusNumber"
+                [(ngModel)]="customer.cusNumber"/>
+        </div>
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password"
+                name="password" [(ngModel)]="customer.password"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>

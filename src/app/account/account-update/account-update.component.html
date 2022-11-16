@@ -3,14 +3,19 @@
 <div>
     <form (ngSubmit)="onUpdateAccountSubmit(account)">
         <div>
-            <label for="accountNumber">Account Number: {{ account.accountNumber
-                }} </label>
+            <label>Account ID: {{ account.id }}</label>
+            <br>
+            <label>Account Number: {{ account.accountNumber }}</label>
+            <br>
+            <label>Customer Number: {{ customer.cusNumber }}</label>
         </div>
 
         <div>
-            <label for="accountName">Account Name: </label>
+            <label for="accountName">Account Name: {{ account.accountName }}</label>
+            <br>
             <input type="text" id="accountName" name="accountName"
-                [(ngModel)]="account.accountName"/>
+                placeholder="Rename: {{
+                account.accountName }}" [(ngModel)]="account.accountName"/>
         </div>
 
         <div>
@@ -18,12 +23,12 @@
         </div>
 
         <div>
-            <label for="accountType">Account Type: {{ account.accountType }}</label>
+            <label for="type">Type: {{ account.accountType }}</label>
         </div>
 
         <div>
             <button type="submit"> Update</button>
-            <button class="back" routerLink="/acc-all-page">Back</button>
+            <button class="back" routerLink="/account/{{ curUserId }}">Back</button>
         </div>
 
     </form>

@@ -1,6 +1,10 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Customer } from './../../model/customer';
+import { CustomerService } from './../../customer/customer-service';
+import { NavigationService } from './../../navigation/navigation.service';
+import { Account } from './../../model/account';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from './../../user/user.service';
 import { AccountService } from './../account.service';
-import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,28 +13,51 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-update.component.css'],
 })
 export class AccountUpdateComponent implements OnInit {
+  curUserId: any;
   account = new Account();
+  customer = new Customer();
 
   constructor(
-    private service: AccountService,
+    private accountService: AccountService,
+    private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private navService: NavigationService,
+    private cusService: CustomerService
   ) {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id != null) {
-      let oAccount = await this.service.getAccountById(parseInt(id));
-      oAccount.subscribe((result) => (this.account = result));
-    }
+    this.curUserId = this.userService.getCurrentUserId();
+    await this.getAccount();
+    await this.getCustomer();
+  }
+
+  async getAccount() {
+    let accountId = this.route.snapshot.paramMap.get('id');
+    console.log('***Account id:', accountId);
+    (await this.accountService.getAccountById(accountId)).subscribe(
+      (resData) => {
+        this.account = resData;
+        console.log('***Account:', this.account);
+      }
+    );
+  }
+
+  async getCustomer() {
+    (await this.cusService.getCustomerById(this.curUserId)).subscribe(
+      (resData) => {
+        this.customer = resData;
+        console.log('---------Cur User customer:', this.customer);
+      }
+    );
   }
 
   async onUpdateAccountSubmit(updatedAccount: Account) {
-    let oAccount = await this.service.updateAccount(updatedAccount);
-    oAccount.subscribe((result) => {
-      console.log('Updated account: ', result);
-    });
-
-    this.service.gotoAccountListPage(this.router);
+    console.log('***Updated form value: ', updatedAccount);
+    (await this.accountService.updateAccount(updatedAccount)).subscribe(
+      (resData) => {
+        console.log('Updated res data account: ', resData);
+      }
+    );
+    await this.navService.goToAccountListPage();
   }
 }

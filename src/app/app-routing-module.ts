@@ -1,3 +1,4 @@
+import { LoginComponent } from './user/login/login.component';
 import { AccountUpdateComponent } from './account/account-update/account-update.component';
 import { AccountDetailComponent } from './account/account-detail/account-detail.component';
 import { AccountCreateComponent } from './account/account-create/account-create.component';
@@ -20,10 +21,12 @@ const myroutes: Routes = [
   { path: 'cus-detail-page/:id', component: CustomerDetailComponent },
   { path: 'cus-update-page/:id', component: CustomerUpdateComponent },
 
-  { path: 'acc-all-page', component: AccountListComponent },
+  { path: 'account/:id', component: AccountListComponent },
+  { path: 'account/:id/detail/:id', component: AccountDetailComponent },
   { path: 'acc-create-page', component: AccountCreateComponent },
-  { path: 'acc-detail-page/:id', component: AccountDetailComponent },
   { path: 'acc-update-page/:id', component: AccountUpdateComponent },
+
+  { path: 'login-page', component: LoginComponent },
 ];
 
 @NgModule({
